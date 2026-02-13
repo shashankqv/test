@@ -1,8 +1,8 @@
 from pymongo import MongoClient
 from pymongo.errors import ConnectionFailure
 
-# Replace with your MongoDB URI
-MONGO_URI = "mongodb://localhost:27017"
+# Replace with your MongoDB URI (with username and password)
+MONGO_URI = "mongodb://username:password@localhost:27017"
 
 try:
     # Create client
