@@ -1,0 +1,44 @@
+[Unit]
+Description=My Spring Boot WAR Service
+After=network.target
+
+[Service]
+Type=simple
+
+# Run as root (as requested)
+User=root
+Group=root
+
+# Application directory
+WorkingDirectory=/opt/myapp
+
+# Java environment
+Environment=JAVA_HOME=/usr/lib/jvm/java-17
+Environment=SPRING_CONFIG_ADDITIONAL_LOCATION=file:/opt/myapp/config/
+
+# Start command
+ExecStart=/usr/lib/jvm/java-17/bin/java \
+    -Xms512m \
+    -Xmx1024m \
+    -Dlogging.file.path=/opt/myapp/logs \
+    -jar /opt/myapp/app.war \
+    --spring.config.additional-location=file:/opt/myapp/config/ \
+    --spring.profiles.active=prod
+
+# Restart if crashes
+Restart=always
+RestartSec=10
+
+# File limits
+LimitNOFILE=65535
+
+# Send logs to journal
+StandardOutput=journal
+StandardError=journal
+
+# Graceful shutdown
+TimeoutStopSec=30
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
